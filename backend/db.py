@@ -16,14 +16,18 @@ ROOT_CONFIG = {
 
 connection_pool = None
 
+
 def init_database():
+    """Create database if it does not exist"""
     conn = mysql.connector.connect(**ROOT_CONFIG)
     cursor = conn.cursor()
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
     cursor.close()
     conn.close()
 
+
 def init_pool():
+    """Initialize MySQL connection pool"""
     global connection_pool
     if connection_pool is None:
         connection_pool = pooling.MySQLConnectionPool(
@@ -37,14 +41,16 @@ def init_pool():
             database=DB_NAME,
         )
 
-# ✅ NORMAL function (NOT generator)
+
 def get_raw_connection():
+    """Used internally (startup logic)"""
     if connection_pool is None:
         raise RuntimeError("DB pool not initialized")
     return connection_pool.get_connection()
 
-# ✅ Dependency for FastAPI routes ONLY
+
 def get_db():
+    """FastAPI dependency"""
     conn = get_raw_connection()
     try:
         yield conn
