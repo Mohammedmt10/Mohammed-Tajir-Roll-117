@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       fetchEmployee(query)
-    }, 600);
+    }, 500);
     return () => clearTimeout(timeout)
   }, [search]) 
 
