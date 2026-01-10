@@ -7,6 +7,7 @@ import type { employeeCard } from './components/card';
 import List from './components/list';
 import Footer from './components/footer';
 import Loading from './components/loading';
+import { http_url } from './config';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   const [searchResult , setSearchResult] = useState<employeeCard[]>([]);
 
   const fetchEmployee = async (query : string) => {
-    const res = await axios.get(`http://127.0.0.1:8000/employees?search=${query}`)
+    const res = await axios.get(`${http_url}/employees?search=${query}`)
     if(Array.isArray(res.data)) {
       setSearchResult(res.data);
     } else {

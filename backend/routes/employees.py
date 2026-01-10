@@ -1,15 +1,16 @@
 from fastapi import APIRouter, Depends, Query, HTTPException, status
-from typing import Optional
 import mysql.connector
+from typing import Optional
+
 
 from ..db import get_db
 
 router = APIRouter(prefix="/employees", tags=["Employees"])
 
 
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("", status_code=status.HTTP_200_OK)
 def get_employees(
-    search: str,
+    search: Optional[str] = Query(None),
     conn=Depends(get_db)
 ):
     cursor = conn.cursor(dictionary=True)
@@ -29,18 +30,12 @@ def get_employees(
 def create_employee(employee: dict, conn=Depends(get_db)):
     try:
         cursor = conn.cursor(dctionary=True)
-        cursor.execute(
-            """
-            INSERT INTO employees
-            (name, email, department, designation, date_of_joining)
-            VALUES (%s, %s, %s, %s, %s)
-            """,
+        cursor.execute("INSERT INTO employees (name, email, department, designation, date_of_joining) VALUES (%s, %s, %s, %s)",
             (
                 employee["name"],
                 employee["email"],
                 employee["department"],
                 employee["designation"],
-                employee["date_of_joining"],
             )
         )
         conn.commit()

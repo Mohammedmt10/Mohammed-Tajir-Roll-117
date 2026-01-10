@@ -16,14 +16,44 @@ ROOT_CONFIG = {
 
 
 def init_database():
-    conn = mysql.connector.connect(
-        host=ROOT_CONFIG["host"],
-        port=ROOT_CONFIG["port"],
-        user=ROOT_CONFIG["user"],
-        password=ROOT_CONFIG["password"],
-    )
+    conn = mysql.connector.connect(**ROOT_CONFIG)
     cursor = conn.cursor()
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
+        
+    cursor.close()
+    conn.close()
+
+def default_employees():
+    conn = mysql.connector.connect(**ROOT_CONFIG)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+            CREATE TABLE IF NOT EXISTS employees (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100),
+                email VARCHAR(100),
+                role VARCHAR(50)
+            )
+        """)
+    
+    cursor.execute("SELECT COUNT(*) FROM employees")
+    count = cursor.fetchone()[0]
+
+    if count == 0:
+        employees = [
+            ("Ayaan Khan", "ayaan@example.com", "Developer"),
+            ("Sara Ali", "sara@example.com", "Designer"),
+            ("Rahul Mehta", "rahul@example.com", "Manager"),
+            ("Neha Sharma", "neha@example.com", "HR"),
+            ("Arjun Patel", "arjun@example.com", "QA"),
+            ("Fatima Noor", "fatima@example.com", "DevOps"),
+        ]
+
+        cursor.executemany(
+            "INSERT INTO employees (name, email, role) VALUES (%s, %s, %s)",
+            employees
+        )
+        conn.commit()
     cursor.close()
     conn.close()
 
