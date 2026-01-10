@@ -9,30 +9,26 @@ router = APIRouter(prefix="/employees", tags=["Employees"])
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_employees(
-    search: Optional[str] = Query(None),
+    search: str,
     conn=Depends(get_db)
 ):
     cursor = conn.cursor(dictionary=True)
 
     if search:
-        cursor.execute(
-            "SELECT * FROM employees WHERE name LIKE %s",
-            (f"%{search}%",)
-        )
+        cursor.execute("SELECT * FROM employees WHERE name LIKE %s",(f"%{search}%",))
     else:
         cursor.execute("SELECT * FROM employees")
 
     rows = cursor.fetchall()
     cursor.close()
 
-    # Always return array (frontend-safe)
     return rows
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def create_employee(employee: dict, conn=Depends(get_db)):
     try:
-        cursor = conn.cursor()
+        cursor = conn.cursor(dctionary=True)
         cursor.execute(
             """
             INSERT INTO employees

@@ -6,6 +6,7 @@ import NavBar from './components/navBar';
 import type { employeeCard } from './components/card';
 import List from './components/list';
 import Footer from './components/footer';
+import Loading from './components/loading';
 
 
 function App() {
@@ -25,32 +26,29 @@ function App() {
     setLoading(false)
   }
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
+  useEffect(() => { 
       fetchEmployee(query)
-    }, 500);
-    return () => clearTimeout(timeout)
   }, [search]) 
-
+  
   useEffect(() => {
+    setLoading(true)
     const timeout = setTimeout(() => {
       setSearch(query)
-    }, 1000);
+    }, 500);
     return () => clearTimeout(timeout)
   }, [query]);
 
-  if (loading) {
-      return <div>
-        loading...
-    </div>
-  }
   return <div className='h-screen'>
     <NavBar />
     <InputBox setQuery={setQuery} />
-    <div className='h-full justify-between flex flex-col'>
-      <List searchResult={searchResult} />
-      <Footer />
-    </div>
+
+    <div className='h-full'>
+      {!loading && <div className='h-full flex justify-between flex-col'>
+        <List searchResult={searchResult} />
+        <Footer />
+      </div>}
+      {loading && <Loading />}
+    </div> 
   </div>
 }
 
