@@ -11,9 +11,9 @@ export default  function NavBar() {
             <div className="hover:bg-black hover:text-white rounded duration-200 p-1 px-3">
                 Employees
             </div>
-            <div className="hover:bg-black hover:text-white rounded duration-200 p-1 px-3">
+            <a href="#aboutus" className="hover:bg-black hover:text-white rounded duration-200 p-1 px-3">
                 About
-            </div>
+            </a>
         </div>
     </div>
 }

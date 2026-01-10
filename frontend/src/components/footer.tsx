@@ -1,5 +1,5 @@
 export default function Footer() {
-    return <div className="py-6 px-10 flex justify-between border-t-2 border-neutral-400 bg-white">
+    return <div id="aboutus" className="py-6 px-10 flex justify-between border-t-2 border-neutral-400 bg-white">
         <div>
             <div className="text-2xl">
                 About Us
