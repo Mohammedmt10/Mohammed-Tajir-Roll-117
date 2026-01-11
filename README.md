@@ -4,7 +4,7 @@
 As per the company-specified stack, raw MySQL was used.
 
 <p align="center">
-  <img src="frontend/assets/screenshot.png" alt="Centered Image" width="400"/>
+  <img src="frontend/public/screenshot.png" alt="Centered Image" width="400"/>
 </p>
 
 ## How search performance is optimized (conceptually)?
