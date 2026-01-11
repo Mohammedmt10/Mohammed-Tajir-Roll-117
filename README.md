@@ -3,6 +3,10 @@
 ## Database Choice
 As per the company-specified stack, raw MySQL was used.
 
+<p align="center">
+  <img src="https://drive.google.com/file/d/1OKAb2h1QYJzACUJH3KEoQijFA_3Wge01/view?usp=sharing" alt="Centered Image" width="400"/>
+</p>
+
 ## How search performance is optimized (conceptually)?
 ### By using Debouncing:
 - Instead of runing the fetchEmployee function everytime the user types something.
